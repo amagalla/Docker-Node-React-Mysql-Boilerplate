@@ -4,64 +4,55 @@ const
     { registerUser, getUser } = require('../../controller/registeration');
 
 /**
- * @openapi
- *  
- * components:
- *  schemas:
+ * @swagger
+ * 
+ * definitions:
  *      RegisterUser:
  *          type: object
- *          required:
- *              - first_name
- *              - last_name
- *              - email
- *              - password
+ *          description: User's information
  *          properties:
  *              first_name:
  *                  type: string
+ *                  example: John
  *              last_name:
  *                  type: string
+ *                  example: Doe
  *              email:
  *                  type: string
+ *                  example: email@a1.test
  *              password:
  *                  type: string
- *          example:
- *              first_name: John
- *              last_name: Doe
- *              email: test@testemail.test
- *              password: abc123
- *      RegisterResponse:
- *          type: object
- *          example:
- *              first_name: John
- *              last_name: Doe
- *              email: test@testemail.test
+ *                  example: abc123
  */
 
 /**
- * @openapi
+ * @swagger
  * 
- * /api/profiles/register:
+ *  /api/profiles/register:
+ * 
  *  post:
- *      summary: Register a new User
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      $ref: '#/components/schemas/RegisterUser'
- *      reponses:
+ *      description: Register a new User
+ *      produces:
+ *          - application/json
+ *      parameters:
+ *          - in: body
+ *            name: User to register
+ *            description: The user's information
+ *            required: true
+ *            schema:
+ *              $ref: '#/definitions/RegisterUser'
+ *      responses:
  *          200:
- *              description: The user was successfully registered
- *              content:
- *                  application/json:
- *                      schema:
- *                          $ref: '#/components/schemas/RegisterResponse'
+ *              description: User registered successfully
+ *          400:
+ *              description: Registration failed
  */
 
 router.post(
     '/register',
     async (req, res) => {
         
+        console.log('Inside register route!!');
         const resp = await registerUser(req.body);
 
         if (!resp) {
@@ -73,18 +64,17 @@ router.post(
 );
 
 /**
- * @openapi
+ * @swagger
  * 
- * /api/profiles/login:
+ *  /api/profiles/login:
+ *  
  *  get:
- *      summary: Get all registered users
- *      reponses:
+ *      description: Get all registered users
+ *      responses:
  *          200:
  *              description: Received all users
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: string
+ *          400:
+ *              description: Failed to get users
  */
 
 router.get(
