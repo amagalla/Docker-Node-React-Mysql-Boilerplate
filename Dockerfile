@@ -1,4 +1,4 @@
-FROM node:17 as base
+FROM node:16 as base
 
 WORKDIR /app
 
@@ -16,6 +16,3 @@ FROM base as production
 ENV NODE_PATH=./dist
 
 RUN npm run build
-
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.8.0/wait /wait
-RUN chmod +x /wait
